@@ -66,5 +66,4 @@ variable icmp_idle_timeout_sec {
 
 locals {
   address_links = ["${concat(var.address_links, google_compute_address.nat_address.*.self_link)}"]
-  addresses = ["${concat(data.google_compute_address.existing_addresses.*.address, google_compute_address.nat_address.*.address)}"]
 }
