@@ -27,6 +27,8 @@ module cloud_nat {
 }
 ``` 
 
+### Externally managed addresses
+
 If you want to manage the reservation of addresses yourself, the automatic reservation of addresses can be disabled. If
 this is the case, then you'll need to supply the self links of your reserved addresses.
 
