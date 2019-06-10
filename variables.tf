@@ -21,10 +21,22 @@ variable "reserve_addresses" {
   description = "Boolean value to indicate whether this module should reserve addresses for use with the NAT gateway."
 }
 
-variable "reserve_address_count" {
+variable "reserved_address_count" {
   type        = string
   default     = 1
   description = "When reserving addresses, the number of addresses to reserve."
+}
+
+variable "reserved_address_name" {
+  type        = string
+  default     = "nat-%s-%02d"
+  description = "The name format to use when reserving addresses. Interpolated with the region and count.index."
+}
+
+variable "reserved_address_description" {
+  type        = string
+  default     = "Cloud NAT gateway in %s."
+  description = "Description to use for managed addresses. Interpolated with the region."
 }
 
 variable "network" {
