@@ -26,9 +26,9 @@ data "google_compute_address" "existing_addresses" {
 }
 
 resource "google_compute_address" "nat_address" {
-  count       = var.reserve_addresses ? var.reserve_address_count : 0
-  name        = "nat-${var.region}-${format("%02d", count.index + 1)}"
+  count       = var.reserve_addresses ? var.reserved_address_count : 0
+  name        = format(var.reserved_address_name, var.region, count.index + 1)
   region      = var.region
-  description = "Cloud NAT gateway in ${var.region}."
+  description = var.reserved_address_description != null ? format(var.reserved_address_description, var.region) : null
 }
 

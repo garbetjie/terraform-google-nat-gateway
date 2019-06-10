@@ -23,7 +23,7 @@ Optionally, the number of addresses can be changed.
 module cloud_nat {
   source = "garbetjie/nat-gateway/google"
   region = "europe-west3"
-  reserve_address_count = 2
+  reserved_address_count = 2
 }
 ``` 
 
@@ -55,7 +55,7 @@ module cloud_nat {
 | region                           | The region for which this Cloud NAT gateway applies.                            | string |                       | Yes      |
 | address_links                    | The self links of addresses that are reserved outside of the module.            | list   | `[]`                  | No       |
 | reserve_addresses                | Whether or not to reserve addresses with this module. One of `true` or `false`. | string | `true`                | No       |
-| reserve_address_count            | The number of addresses to reserve when reserving addresses in this module.     | string | `1`                   | No       |
+| reserved_address_count           | The number of addresses to reserve when reserving addresses in this module.     | string | `1`                   | No       |
 | network                          | The network to which this Cloud NAT gateway applies.                            | string | `"default"`           | No       |
 | min_ports_per_vm                 | Minimum number of ports allocated to each VM for this Cloud NAT gateway.        | string | `128`                 | No       |
 | udp_idle_timeout_sec             | Timeout (in seconds) for UDP connections.                                       | string | `30`                  | No       |
