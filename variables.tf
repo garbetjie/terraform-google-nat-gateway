@@ -29,14 +29,14 @@ variable "reserved_address_count" {
 
 variable "reserved_address_name" {
   type        = string
-  default     = "nat-%s-%02d"
-  description = "The name format to use when reserving addresses. Interpolated with the region and count.index."
+  default     = "nat-{region}-{0count}"
+  description = "The name format to use when reserving addresses. String replacements: {region}, {count} (1-based count index), and {0count} (1-based count index, zero padded)."
 }
 
 variable "reserved_address_description" {
   type        = string
-  default     = "Cloud NAT gateway in %s."
-  description = "Description to use for managed addresses. Interpolated with the region."
+  default     = "Cloud NAT gateway in {region}."
+  description = "Description to use for managed addresses. String replacements: {region}, {count} (1-based count index), and {0count} (1-based count index, zero padded)."
 }
 
 variable "network" {

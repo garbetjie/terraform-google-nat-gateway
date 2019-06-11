@@ -27,8 +27,24 @@ data "google_compute_address" "existing_addresses" {
 
 resource "google_compute_address" "nat_address" {
   count       = var.reserve_addresses ? var.reserved_address_count : 0
-  name        = format(var.reserved_address_name, var.region, count.index + 1)
+  name        = replace(
+      replace(
+        replace(var.reserved_address_name, "{region}", var.region),
+        "{count}",
+        count.index + 1
+      ),
+      "{0count}",
+      format("%02d", count.index + 1)
+    )
   region      = var.region
-  description = var.reserved_address_description != null ? format(var.reserved_address_description, var.region) : null
+  description = (var.reserved_address_description != null ?
+    replace(
+      replace(
+        replace(var.reserved_address_description, "{region}", var.region),
+        "{count}",
+        count.index + 1
+      ),
+      "{0count}",
+      format("%02d", count.index + 1)
+    ): null)
 }
-
