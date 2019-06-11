@@ -75,6 +75,12 @@ variable "icmp_idle_timeout_sec" {
   description = "Timeout (in seconds) for ICMP connections."
 }
 
+variable "logging_filter" {
+  type        = string
+  default     = "ERRORS_ONLY"
+  description = "Indicates whether logging is enabled. `null` to disable logging, and https://www.terraform.io/docs/providers/google/r/compute_router_nat.html#filter for possible values."
+}
+
 locals {
   address_links = concat(
     var.address_links,

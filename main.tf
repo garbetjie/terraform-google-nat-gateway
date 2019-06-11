@@ -6,7 +6,7 @@ resource "google_compute_router" "router" {
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "nat-${var.region}"
+  name                               = format("nat-%s", var.region)
   router                             = google_compute_router.router.name
   region                             = var.region
   nat_ip_allocate_option             = "MANUAL_ONLY"
@@ -17,11 +17,16 @@ resource "google_compute_router_nat" "nat" {
   tcp_established_idle_timeout_sec = var.tcp_established_idle_timeout_sec
   tcp_transitory_idle_timeout_sec  = var.tcp_transitory_idle_timeout_sec
   icmp_idle_timeout_sec            = var.icmp_idle_timeout_sec
+
+  log_config {
+    enable = var.logging_filter != null
+    filter = var.logging_filter
+  }
 }
 
 data "google_compute_address" "existing_addresses" {
   count  = length(var.address_links)
-  name   = basename(element(var.address_links, count.index))
+  name   = basename(var.address_links[count.index])
   region = var.region
 }
 
