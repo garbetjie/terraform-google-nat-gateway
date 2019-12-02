@@ -30,7 +30,7 @@ variable "reserved_address_count" {
 variable "reserved_address_name" {
   type        = string
   default     = "nat-%s-%02d"
-  description = "The name format to use when reserving addresses. Interpolated with the region and count.index."
+  description = "The name format to use when reserving addresses. Interpolated with the region and count.index + 1."
 }
 
 variable "reserved_address_description" {
