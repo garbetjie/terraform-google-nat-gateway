@@ -15,7 +15,7 @@ resource google_compute_address address {
 module cloud_nat {
   source = "garbetjie/nat-gateway/google"
   region = "europe-west3"
-  addresses = [google_compute_address.address.name /*, OR google_compute_address.address.self_link*/]
+  addresses = [google_compute_address.address.name /*, OR google_compute_address.address.self_link, OR google_compute_address.address.id */]
 }
 ```
 
@@ -25,7 +25,7 @@ module cloud_nat {
 | Name                             | Description                                                              | Type         | Default               | Required |
 |----------------------------------|--------------------------------------------------------------------------|--------------|-----------------------|----------|
 | region                           | Region for which this Cloud NAT gateway is for.                          | string       |                       | Yes      |
-| addresses                        | Links or names of addresses to assign to the NAT gateway.                | list(string) |                       | Yes      |
+| addresses                        | Links, names or IDs of addresses to assign to the NAT gateway.           | list(string) |                       | Yes      |
 | name                             | Name of the Cloud NAT gateway.                                           | string       | `"nat-${var.region}"` | No       |
 | network                          | Network to which this Cloud NAT gateway applies.                         | string       | `"default"`           | No       |
 | min_ports_per_vm                 | Minimum number of ports allocated to each VM for this Cloud NAT gateway. | string       | `256`                 | No       |
@@ -39,7 +39,10 @@ module cloud_nat {
 
 ## Outputs
 
-| Name          | Type | Description                                                  |
-|---------------|------|--------------------------------------------------------------|
-| address_links | list | The self links of addresses that are managed by this module. |
-| addresses     | list | The IPs of addresses that are managed by this module.        |
+| Name            | Type         | Description                                     |
+|-----------------|--------------|-------------------------------------------------|
+| addresses       | list(string) | IP addresses assigned to the NAT gateway.       |
+| address_links   | list(string) | Links of addresses assigned to the NAT gateway. |
+| address_names   | list(string) | Names of addresses assigned to the NAT gateway. |
+| router_name     | string       | Name of the created router.                     |
+| nat_router_name | string       | Name of the created NAT gateway.                |

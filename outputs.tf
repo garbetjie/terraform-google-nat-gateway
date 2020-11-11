@@ -1,19 +1,33 @@
-output "address_links_managed" {
-  value       = google_compute_address.nat_address.*.self_link
-  description = "Self links of addresses managed by this module."
+output addresses {
+  value = [
+    for addr in data.google_compute_address.addresses:
+      addr.address
+  ]
+  description = "IP addresses assigned to the NAT gateway."
 }
 
-output "addresses_managed" {
-  value       = google_compute_address.nat_address.*.address
-  description = "IPs of addresses managed by this module."
+output address_links {
+  value = [
+    for address in data.google_compute_address.addresses:
+      address.self_link
+  ]
+  description = "Links of addresses assigned to the NAT gateway."
 }
 
-output "address_links" {
-  value = concat(google_compute_address.nat_address.*.self_link, data.google_compute_address.existing_addresses.*.self_link)
-  description = "Self links of all addresses in this module (both managed and unmanaged)."
+output address_names {
+  value = [
+    for address in data.google_compute_address.addresses:
+      address.name
+  ]
+  description = "Names of addresses assigned to the NAT gateway."
 }
 
-output "addresses" {
-  value = concat(google_compute_address.nat_address.*.address, data.google_compute_address.existing_addresses.*.address)
-  description = "IPs of all addresses in this module (both managed and unmanaged)."
+output router_name {
+  value = google_compute_router.nat_router.name
+  description = "Name of the created router."
+}
+
+output nat_router_name {
+  value = google_compute_router_nat.nat.name
+  description = "Name of the created NAT gateway."
 }

@@ -11,7 +11,10 @@ resource "google_compute_router_nat" "nat" {
   region = var.region
   nat_ip_allocate_option = "MANUAL_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  nat_ips = var.addresses
+  nat_ips = [
+    for address in data.google_compute_address.addresses:
+      address.self_link
+  ]
   min_ports_per_vm = var.min_ports_per_vm
   udp_idle_timeout_sec = var.udp_idle_timeout_sec
   tcp_established_idle_timeout_sec = var.tcp_established_idle_timeout_sec
@@ -22,4 +25,10 @@ resource "google_compute_router_nat" "nat" {
     enable = var.logging_enabled
     filter = var.logging_filter
   }
+}
+
+data google_compute_address addresses {
+  for_each = toset(var.addresses)
+  name = length(regexall("/", each.value)) > 0 ? reverse(split("/", each.value))[0] : each.value
+  region = var.region
 }
